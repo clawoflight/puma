@@ -1,5 +1,7 @@
-# PUMA - Password (and User) Manager
+# PUMA - Password (and User) MAnager
 This is a very simple and effective password manager built on `gnupg`, the `coreutils`, `xdotool` and optionally `dmenu` and `zenity`.
+
+I chose the name from the options given to me by [this awesome acronym generator](http://acronymcreator.net/) because it sounds awesome.
 
 ## Concept
 The concept is trivial. You simply keep a folder with some gpg-encrypted files of the form:
@@ -11,6 +13,8 @@ Pass: Tr0ub4dor&3
 ```
 
 Adding support for subfolders is trivial, and I will do that when I get around to it.
+
+When you want to log in somewhere, simply invoke `puma` or `puma-menu` while having keyboard focus in the login form, and PUMA will log you in.
 
 ## Install
 PUMA is just shell glue combining a lot of existing programs. It has the following dependencies:
