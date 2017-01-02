@@ -1,0 +1,45 @@
+# PUMA - Password (and User) Manager
+This is a very simple and effective password manager built on `gnupg`, the `coreutils`, `xdotool` and optionally `dmenu` and `zenity`.
+
+## Concept
+The concept is trivial. You simply keep a folder with some gpg-encrypted files of the form:
+
+```
+// ~/Documents/keyring/amazon.gpg
+User: john.doe@gmail.com
+Pass: Tr0ub4dor&3
+```
+
+Adding support for subfolders is trivial, and I will do that when I get around to it.
+
+## Install
+PUMA is just shell glue combining a lot of existing programs. It has the following dependencies:
+
+- `gnupg`
+- `pandoc` (to compile the man pages)
+- `xdotool`
+
+Optionally, for `puma-menu`:
+
+- `dmenu`
+
+Optionally, for `puma-add`:
+
+- `zenity`
+
+To install, just type `make install` in the project root. The Makefile honors the `PREFIX` and `DESTDIR` environment variables for easy packaging by maintainers used to autotools.
+
+## Usage
+To type out the user name, TAB, password and ENTER for an account:
+
+    $puma <account-name>
+    $puma -u <account-name>  # Types the user name only
+    $puma -p <account-name>  # Types the password only
+
+`puma-add` is a GUI dialog to simplify adding an account:
+
+    $puma-add [--random]
+
+`puma-menu` uses `dmenu` to provide a GUI login flow. This is the recommended way to use PUMA.
+
+Simply invoke it with keyboard focus in a login form and select the account to which you want to be logged in.

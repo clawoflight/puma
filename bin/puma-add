@@ -1,0 +1,40 @@
+#!/bin/bash
+#
+# This file is part of PUMA.
+# Copyright 2017 Bennett Piater and Justus Piater
+#
+# PUMA is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# PUMA is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with PUMA.  If not, see <http://www.gnu.org/licenses/>.
+
+if [[ x"$1" = x"--random" ]]; then
+	IFS="|" read -r FNAME USER < <(zenity --title "Add a new user" --forms --text="Add a new user with random password" --add-entry=filename --add-entry=user)
+	PASS=$(diceware)
+	printf "%s" "$PASS" | xclip  # Copy the randomly-generated password to the clipboard
+else
+	IFS="|" read -r FNAME USER PASS < <(zenity --title "Add a new user" --forms --text="Add a new user" --add-entry=filename --add-entry=user --add-password=pass)
+fi
+
+if [[ -z "$FNAME" || -z "$USER" || -z "$PASS" ]]; then
+	#zenity --error --text "Invalid input!"
+	exit 1
+fi
+
+FILENAME="$HOME"/Documents/keyring/"$FNAME"
+
+printf "User: %s\nPass: %s\n" "$USER" "$PASS" >"$FILENAME"
+
+gpg --batch --yes --encrypt --recipient bennett@piater.name "$FILENAME" || zenity --error --text "gpg error!"
+
+rm -f "$FILENAME"
+
+zenity --info --text="$PASS"
