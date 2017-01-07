@@ -41,6 +41,8 @@ Optionally, for `puma-add`:
 
 To install, just type `make install` in the project root. The Makefile honors the `PREFIX` and `DESTDIR` environment variables for easy packaging by maintainers used to the GNU autotools.
 
+If you are on Arch, you can find a package in the [AUR](https://aur.archlinux.org/packages/puma/).
+
 ## Usage
 To type out the user name, TAB, password and ENTER for an account:
 
