@@ -1,27 +1,23 @@
-% PUMA(1) PUMA user manuals
+% PUMA-ADD(1) PUMA user manuals
 % Bennett Piater and Justus Piater
 % January 07, 2017
 
 # NAME
-puma - simple password manager
+puma-add - Add a user account to PUMA
 
 # SYNOPSIS
-puma [*options*] <account>
+puma-add [*options*]
 
 # Description
-Log in automatically using the credentials for the specified account.
+Helper script to simplify the flow of adding a new account to PUMA.
 
-This will type the user name, TAB, password and ENTER.
+It shows a zenity form popup into which one can enter the account name, user name and password, writes the file, and encrypts it.
+
+The password is shown in a popup at the end so it can easily be copied.
 
 # OPTIONS
--h, \--help
-: Show a help message.
-
--u
-: only type the user name and TAB
-
--p
-: only type the password and ENTER
+--random
+: Generate a random password instead of asking for it in the popup.
 
 # EXIT STATUS
 TODO
@@ -30,19 +26,15 @@ TODO
 PUMA_KEYRING
 : The folder containing the credential files. Defaults to *~/Documents/keyring*.
 
+PUMA_GPGID
+: The gpg id with which to encrypt the password files.
+
 # NOTES
 
 # BUGS
 
-# EXAMPLES
-To log into your google account, while having keyboard focus in the user name field:
-
-    puma google
-
-This assumes that $PUMA_KEYRING/google.gpg exists and is valid.
-
 # SEE ALSO
-**puma-add**(1), **puma**(7)
+**puma**(1), **puma**(7)
 
 # COPYRIGHT
 PUMA is free software: you can redistribute it and/or modify

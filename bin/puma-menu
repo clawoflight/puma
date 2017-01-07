@@ -1,4 +1,5 @@
 #! /bin/sh
+# Wrapper providing a log-in GUI
 #
 # This file is part of PUMA.
 # Copyright 2017 Bennett Piater and Justus Piater
@@ -20,4 +21,6 @@
 # If you do so, invoke this and simply select the account that you want to use.
 # (While having focus in a login form) The up script will then log you in.
 
-ls -1B ~/Documents/keyring | sed 's/\(.*\)\..*/\1/' | dmenu -p "Login:" | xargs ~/bin/up
+PUMA_KEYRING="${PUMA_KEYRING:-$HOME/Documents/keyring}"
+
+ls -1B "$HOME/$PUMA_KEYRING" | sed 's/\(.*\)\..*/\1/' | dmenu -p "Login:" | xargs ~/bin/up

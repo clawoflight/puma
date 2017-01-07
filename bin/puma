@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/bin/bash
+# Log in using credentials
 #
 # This file is part of PUMA.
 # Copyright 2017 Bennett Piater and Justus Piater
@@ -25,7 +26,7 @@
 # Starting from the current X cursor position, this script then types
 # <username> <TAB> <password> <ENTER>
 
-keyring=$HOME/Documents/keyring
+PUMA_KEYRING="${PUMA_KEYRING:-$HOME/Documents/keyring}"
 
 u=yes
 p=yes
@@ -37,10 +38,26 @@ while test $# -gt 0; do
     esac
 done
 
+if [[ x"$key" = x ]]; then
+    echo "usage: $0 [-u|-p] <account>" >&2
+    exit 1
+elif [[ x"$key" = x"--help" || x"$key" = x"-h" ]]; then
+    echo "usage: $0 [-u|-p] <account>
+
+Type out user name, TAB, password and ENTER.
+
+<account> is the file name without .gpg.
+Options:
+ -u    only type the user name + TAB.
+ -p    only type the password + ENTER.
+"
+    exit 0
+fi
+
 
 typeout() {
     local gpg="/usr/bin/gpg --no-tty --quiet --decrypt $keyring/$key.gpg"
-    echo type $($gpg | grep -m 1 "$1: " | cut -d " " -f 2) | xdotool -
+    echo type "$($gpg | grep -m 1 "$1: " | cut -d " " -f 2)" | xdotool -
 }
 
 

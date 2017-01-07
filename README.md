@@ -30,8 +30,9 @@ Optionally, for `puma-menu`:
 Optionally, for `puma-add`:
 
 - `zenity`
+- `diceware` for secure random password generation
 
-To install, just type `make install` in the project root. The Makefile honors the `PREFIX` and `DESTDIR` environment variables for easy packaging by maintainers used to autotools.
+To install, just type `make install` in the project root. The Makefile honors the `PREFIX` and `DESTDIR` environment variables for easy packaging by maintainers used to the GNU autotools.
 
 ## Usage
 To type out the user name, TAB, password and ENTER for an account:
@@ -40,10 +41,14 @@ To type out the user name, TAB, password and ENTER for an account:
     $puma -u <account-name>  # Types the user name only
     $puma -p <account-name>  # Types the password only
 
-`puma-add` is a GUI dialog to simplify adding an account:
-
-    $puma-add [--random]
+You will probably only use `puma` directly in your own scripts, or if using a window manager like AwesomeWM that allows you to execute arbitrary shell commands.
 
 `puma-menu` uses `dmenu` to provide a GUI login flow. This is the recommended way to use PUMA.
 
 Simply invoke it with keyboard focus in a login form and select the account to which you want to be logged in.
+
+`puma-add` is a GUI dialog to simplify adding an account:
+
+    $puma-add [--random]
+
+For more information, read the man-pages.
