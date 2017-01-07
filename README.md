@@ -1,3 +1,10 @@
+[![license](https://img.shields.io/github/license/clawoflight/puma.svg?maxAge=2592000)](https://github.com/clawoflight/puma/blob/master/LICENSE)
+[![GitHub contributors](https://img.shields.io/github/contributors/clawoflight/puma.svg)](https://github.com/clawoflight/puma/blob/master/AUTHORS)
+[![Github All Releases](https://img.shields.io/github/downloads/clawoflight/puma/total.svg?maxAge=2592000)]()
+[![GitHub release](https://img.shields.io/github/release/clawoflight/puma.svg?maxAge=2592000)](https://github.com/clawoflight/puma/releases)
+[![AUR](https://img.shields.io/aur/version/puma.svg?maxAge=2592000)](https://aur.archlinux.org/packages/puma/)
+[![AUR](https://img.shields.io/aur/votes/puma.svg?maxAge=2592000)](https://aur.archlinux.org/packages/puma/)
+
 # PUMA - Password (and User) MAnager
 This is a very simple and effective password manager built on `gnupg`, the `coreutils`, `xdotool` and optionally `dmenu` and `zenity`.
 
