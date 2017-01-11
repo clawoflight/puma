@@ -23,4 +23,4 @@
 
 PUMA_KEYRING="${PUMA_KEYRING:-$HOME/Documents/keyring}"
 
-ls -1B "$PUMA_KEYRING" | sed 's/\(.*\)\..*/\1/' | dmenu -p "Login:" | xargs ~/bin/up
+ls -1B "$PUMA_KEYRING" | sed 's/\(.*\)\..*/\1/' | dmenu -p "Login:" | xargs puma

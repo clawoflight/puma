@@ -56,7 +56,7 @@ fi
 
 
 typeout() {
-    local gpg="/usr/bin/gpg --no-tty --quiet --decrypt $keyring/$key.gpg"
+    local gpg="/usr/bin/gpg --no-tty --quiet --decrypt $PUMA_KEYRING/$key.gpg"
     echo type "$($gpg | grep -m 1 "$1: " | cut -d " " -f 2)" | xdotool -
 }
 
