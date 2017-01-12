@@ -20,9 +20,9 @@ puma-menu
 # PURPOSE
 We wanted a very simple password manager, so we made this.
 All you need to use it is a folder with gpg-encrypted credential files.
-Subfolders aren't currently supported, but that won't be hard to add.
+As of version 0.6, subfolders are supported as well!
 
-To log in somewhere (as long as tab indices are properly set), simply invoke **puma** or **puma-menu** while having keyboard focus in the username field.
+To log in somewhere (as long as tab indices are properly set by the website or application), simply invoke **puma** or **puma-menu** while having keyboard focus in the username field.
 
 I recommend binding **puma-menu** to some keyboard shortcut.
 

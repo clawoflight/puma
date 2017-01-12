@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/bash
 # Wrapper providing a log-in GUI
 #
 # This file is part of PUMA.

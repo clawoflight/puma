@@ -35,7 +35,11 @@ fi
 
 FILENAME="$PUMA_KEYRING"/"$FNAME"
 
+# Create the keyring directory in case it doesn't exist
+mkdir -p "$(dirname "$FILENAME")"
+# Write the file
 cat <<< "User: $USER"$'\n'"Pass: $PASS"$'\n' >"$FILENAME"
+# Encrypt the file
 gpg --batch --yes --encrypt --recipient "$PUMA_GPGID" "$FILENAME" || { zenity --error --text "gpg error!"; exit 1; }
 
 rm -f "$FILENAME"

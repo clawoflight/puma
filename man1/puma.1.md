@@ -41,6 +41,12 @@ To log into your google account, while having keyboard focus in the user name fi
 
 This assumes that $PUMA_KEYRING/google.gpg exists and is valid.
 
+To log into an account in a subfolder:
+
+    puma finance/paypal
+
+This assumes that $PUMA_KEYRING/finance/paypal.gpg exists and is valid.
+
 # SEE ALSO
 **puma-add**(1), **puma**(7)
 
