@@ -17,9 +17,9 @@
 # You should have received a copy of the GNU General Public License
 # along with PUMA.  If not, see <http://www.gnu.org/licenses/>.
 #
-# To use this, you must put all of your login files in ~/Documents/keyring .
+# To use this, you must put all of your login files in $PUMA_KEYRING .
 # If you do so, invoke this and simply select the account that you want to use.
-# (While having focus in a login form) The up script will then log you in.
+# (While having focus in a login form) The puma script will then log you in.
 
 PUMA_KEYRING="${PUMA_KEYRING:-$HOME/Documents/keyring}"
 prompt="Login:"
@@ -32,6 +32,7 @@ if [[ x"$1" = x"-p" ]]; then
 fi
 
 find "$PUMA_KEYRING" -readable -type f -not -name '*~' -printf "%P\n" |
+    sort |
     sed 's/\(.*\)\..*/\1/' |
     dmenu -p "$prompt" |
     xargs puma "${puma_args[@]}"
