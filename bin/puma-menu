@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 # Wrapper providing a log-in GUI
 #
 # This file is part of PUMA.
@@ -22,8 +22,16 @@
 # (While having focus in a login form) The up script will then log you in.
 
 PUMA_KEYRING="${PUMA_KEYRING:-$HOME/Documents/keyring}"
+prompt="Login:"
+declare -a puma_args
+
+# Check for options
+if [[ x"$1" = x"-p" ]]; then
+    puma_args+=(-p)
+    prompt="Password only:"
+fi
 
 find "$PUMA_KEYRING" -readable -type f -not -name '*~' -printf "%P\n" |
     sed 's/\(.*\)\..*/\1/' |
-    dmenu -p "Login:" |
-    xargs puma
+    dmenu -p "$prompt" |
+    xargs puma "${puma_args[@]}"
