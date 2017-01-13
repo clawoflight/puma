@@ -31,7 +31,7 @@ if [[ x"$1" = x"-p" ]]; then
     prompt="Password only:"
 fi
 
-find "$PUMA_KEYRING" -readable -type f -not -name '*~' -printf "%P\n" |
+find "$PUMA_KEYRING" -readable -not -type d -not -name '*~' -printf "%P\n" |
     sort |
     sed 's/\(.*\)\..*/\1/' |
     dmenu -p "$prompt" |
