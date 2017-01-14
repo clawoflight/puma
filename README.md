@@ -19,9 +19,9 @@ User: john.doe@gmail.com
 Pass: Tr0ub4dor&3
 ```
 
-Adding support for subfolders is trivial, and I will do that when I get around to it.
+Subfolders are transparently supported since `v0.6`.
 
-When you want to log in somewhere, simply invoke `puma` or `puma-menu` while having keyboard focus in the login form, and PUMA will log you in.
+When you want to log in somewhere, simply invoke `puma` or `puma-menu` with the required account name while having keyboard focus in the login form, and PUMA will log you in.
 
 ## Install
 PUMA is just shell glue combining a lot of existing programs. It has the following dependencies:
