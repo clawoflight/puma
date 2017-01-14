@@ -6,7 +6,7 @@
 puma - simple password manager
 
 # SYNOPSIS
-puma [*options*] <account>
+puma [*options*] \<account\>
 
 # Description
 Log in automatically using the credentials for the specified account.

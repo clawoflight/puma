@@ -20,7 +20,7 @@ PUMA_KEYRING="${PUMA_KEYRING:-$HOME/Documents/keyring}"
 
 # Check for an argument
 if (($# < 1)); then
-	echo "usage: $0 [--no-color] <expression>"
+	echo "usage: $0 [--no-color] <pattern>"
 	exit 1
 fi
 
