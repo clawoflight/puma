@@ -1,0 +1,39 @@
+#!/bin/bash
+# Print account files matching a given regular expression.
+#
+# This file is part of PUMA.
+# Copyright 2017 Bennett Piater and Justus Piater
+#
+# PUMA is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# PUMA is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with PUMA.  If not, see <http://www.gnu.org/licenses/>.
+PUMA_KEYRING="${PUMA_KEYRING:-$HOME/Documents/keyring}"
+
+# Check for an argument
+if (($# < 1)); then
+	echo "usage: $0 [--no-color] <expression>"
+	exit 1
+fi
+
+if [[ "$1" == "--no-color" ]]; then
+	grep_color=never
+	shift
+else
+	grep_color=always
+fi
+
+while read -r fname; do
+	gpg --quiet --decrypt "$PUMA_KEYRING/$fname" |
+	 grep -n --color=$grep_color "$1" |
+	 sed -e "s/^/${fname/\//\\/}:/"
+
+done < <(find "$PUMA_KEYRING" -readable -name '*.gpg' -not -type d -printf "%P\n" | sort)

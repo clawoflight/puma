@@ -17,6 +17,9 @@ puma-add(1)
 puma-menu
 : Helper script providing interactive account selection for logging in using dmenu.
 
+puma-profile-grep
+: Helper script to quickly search through account files.
+
 # PURPOSE
 We wanted a very simple password manager, so we made this.
 All you need to use it is a folder with gpg-encrypted credential files.
@@ -26,8 +29,8 @@ To log in somewhere (as long as tab indices are properly set by the website or a
 
 I recommend binding **puma-menu** to some keyboard shortcut.
 
-# CREDENTIAL FILE SYNTAX
-Credential files are of the following form:
+# ACCOUNT FILE SYNTAX
+Account files are of the following form:
 
     // ~/Documents/keyring/google.gpg
     User: john.doe@gmail.com
