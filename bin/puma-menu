@@ -36,6 +36,21 @@ if [[ x"$1" = x"-u" ]]; then
     prompt="Username only:"
 fi
 
+# Check whether automatic login is possible
+if [[ -f "$PUMA_KEYRING/autologin.csv" ]]; then
+    window_title="$(xdotool getwindowfocus getwindowname)"
+    # Find matching file
+    # This matches the window title against the second csv column
+    file=$(awk -F, "\"$window_title\" ~ \$2 { print \$3; exit }" "$PUMA_KEYRING/autologin.csv")
+
+    if [[ x"$file" != x ]]; then
+	sleep .5 # give time for user to release shortcut keys
+	puma "${puma_args[@]}" "$(echo $file)" # echo to remove surrounding whitespace
+        exit
+    fi
+fi
+
+# If no autologin rule was found, open dmenu
 find "$PUMA_KEYRING" -readable -name '*.gpg' -not -type d -printf "%P\n" |
     sort |
     sed 's/\(.*\)\..*/\1/' |
