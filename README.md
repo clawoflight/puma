@@ -14,7 +14,7 @@ I chose the name from the options given to me by [this awesome acronym generator
 The concept is trivial. You simply keep a folder with some gpg-encrypted files of the form:
 
 ```
-// ~/Documents/keyring/amazon.gpg
+// $PUMA_KEYRING/shop/amazon.gpg
 User: john.doe@gmail.com
 Pass: Tr0ub4dor&3
 ```
@@ -52,9 +52,15 @@ To type out the user name, TAB, password and ENTER for an account:
 
 You will probably only use `puma` directly in your own scripts, or if using a window manager like AwesomeWM that allows you to execute arbitrary shell commands.
 
-`puma-menu` uses `dmenu` to provide a GUI login flow. This is the recommended way to use PUMA.
+`puma-menu` uses `dmenu` to provide a GUI login flow. **This is the recommended way to use PUMA.**
 
 Simply invoke it with keyboard focus in a login form and select the account to which you want to be logged in.
+
+Optionally, if `$PUMA_KEYRING/autoconfig.csv` exists, `puma-menu` will automatically log you in if it finds a matching entry using the focused window title:
+
+    // autoconfig.csv
+    domain (unused), window title substring, puma account name (argument to puma)
+    amazon.com, Amazon Sign In, shop/amazon
 
 `puma-add` is a GUI dialog to simplify adding an account:
 
