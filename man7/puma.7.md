@@ -15,7 +15,7 @@ puma-add(1)
 : Helper script to simplify adding new credentials.
 
 puma-menu
-: Helper script providing interactive account selection for logging in using dmenu.
+: Helper script providing interactive or automatic account selection for logging in using dmenu.
 
 puma-profile-grep
 : Helper script to quickly search through account files.
@@ -32,11 +32,22 @@ I recommend binding **puma-menu** to some keyboard shortcut.
 # ACCOUNT FILE SYNTAX
 Account files are of the following form:
 
-    // ~/Documents/keyring/google.gpg
+    // $PUMA_KEYRING/google.gpg
     User: john.doe@gmail.com
     Pass: Tr0ub4dor&3
 
 Lines other than *User* and *Pass* are ignored and can be used for notes or any other information.
+
+# AUTOMATIC LOGIN
+**puma-menu** can automatically log you in instead of presenting a menu.
+Create *$PUMA_KEYRING/autologin.csv*:
+
+    url (unused), window title substring, file (argument to puma)
+    google.com, Google Accounts, google
+    paypal.com, PayPal, finance/paypal
+
+The second column will be matched against the title of the focused window.
+If no mapping was found, the menu is showed as usual.
 
 # NOTES
 Some environment variables may need to be set. Check the documentation of the scripts before using them.
