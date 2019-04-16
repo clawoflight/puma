@@ -1,0 +1,56 @@
+#!/bin/bash
+# Make bitwarden behave like puma-menu
+#
+# This file is part of PUMA.
+# Copyright 2019 Bennett Piater
+#
+# PUMA is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# PUMA is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with PUMA.  If not, see <http://www.gnu.org/licenses/>.
+#
+# Usage: $0 [-u] [-p] [query]
+# If the query is set, the logins will be filtered by it (bw list items --search $query).
+# Only if it is ambiguous or omitted will dmenu be shown for selection (demenu -auto-select).
+#
+# Starting from the current X cursor position, this script then types
+# <username> <TAB> <password> <ENTER>
+set -o pipefail
+
+typeout() {
+    data=$(bw get item "$2" | jq .login.$1 -r)
+    echo type $data | xdotool -
+}
+
+# TODO `bw get item` once, not twice
+execute_login() {
+	if [ -n "$u" ]; then
+	    typeout username "$1"
+	    xdotool key Tab
+	fi
+	if [ -n "$p" ]; then
+	    typeout password "$1"
+	    xdotool key Return
+	fi
+}
+
+u=yes
+p=yes
+while test $# -gt 0; do
+    case "$1" in
+	-p)  u= ; shift;;
+	-u)  p= ; shift;;
+	*)   query="--search $1"; break;;
+    esac
+done
+
+execute_login $(bw list items $query | jq ".[].name" -r | dmenu -p "login" -auto-select)
+

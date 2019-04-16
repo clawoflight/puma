@@ -1,0 +1,51 @@
+#!/bin/bash
+# Convert credentials to bitwardens csv format
+#
+# This file is part of PUMA.
+# Copyright 2019 Bennett Piater
+#
+# PUMA is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# PUMA is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with PUMA.  If not, see <http://www.gnu.org/licenses/>.
+#
+# Usage: $0 [file...] > credentials.csv
+# Creates a csv with all credentials found recursively, or the files submitted as arguments.
+shopt -s globstar
+
+readonly gpg="gpg --decrypt"
+
+if [[ -n "$PUMA_KEYRING" ]]; then
+	cd "$PUMA_KEYRING"
+fi
+
+print_credentials() {
+	filename="$(basename ${1%.*})"
+	foldername="$(dirname $1)"
+
+	user="$($gpg $1 | grep -im 1 user: | cut -d' ' -f 2)"
+	pass="$($gpg $1 | grep -im 1 pass: | cut -d' ' -f 2)"
+
+	echo "$foldername,,login,$filename,Imported from PUMA,,,$user,$pass,"
+}
+
+# header
+echo "folder,favorite,type,name,notes,fields,login_uri,login_username,login_password,login_totp"
+
+if test $# -gt 0; then
+	for file in "$@"; do
+		print_credentials "$file"
+	done
+else
+	for file in **/*.gpg; do
+		print_credentials "$file"
+	done
+fi
