@@ -18,12 +18,32 @@
 # along with PUMA.  If not, see <http://www.gnu.org/licenses/>.
 #
 # Usage: $0 [-u] [-p] [query]
-# If the query is set, the logins will be filtered by it (bw list items --search $query).
+# If the query is set, the logins will be filtered by it (bw list items --url $query).
 # Only if it is ambiguous or omitted will dmenu be shown for selection (demenu -auto-select).
 #
 # Starting from the current X cursor position, this script then types
 # <username> <TAB> <password> <ENTER>
 set -o pipefail
+
+# TODO find a better way to export the key
+# Export key so we can accsss bitwarden - especially hard since this must otherwise be in the window manager's environment...
+BW_KEY=$(cat <<EOF
+-----BEGIN PGP MESSAGE-----
+
+hQEMAz9eluqglg7vAQgAn5BchD+copIJGx8kpdFNno8U5xQI+DkKQ/8FRkCIAdCJ
+p2JhFZfFlwd7EbKVUFhXILH5hKq0sYAMQlrI4W30RqJcidXBYNTFUXNR3eVAG0td
+xKf21OeaiUWIwCaVNAmGPrqmU8akJKV7MjmUTSBEX/sX91x1T4Uxn73le/6JksmY
+9e9uSuRFOpFDXIlNp0YSm9IPbGHKjHKYxxF4QV2QRWFHtfuzC0fNr+s0yWrFUm8n
+EIuie2W7JItKc1IyDbuHg9+Q8etEOUl4qbR5uUkX9oNIgruaUY1DNDTGnj6CE15C
+o1+jgfF6ZSLM4s40qTkxPRvK1yDbmelqZEi9Kp8NmtKUAVES8Xg8AEi2E7mcFP2k
+4lyFmmfYy+P5RCt+C75nFbYw6qUqoxza70fki0/ZvKuWpvCv2ggtapZ8xAEBWTez
+gQNgx1pwz+rpPc+47a+YMemx3Rbzx+0Q/bphj3UwsSEMrTuy9rVuBBbwrn+fuLVK
+hbggqEN5NWNhjlUsxbb0UUHotxHddBWJj/ac8w/DgjtRnzrFVQ==
+=9u/6
+-----END PGP MESSAGE-----
+EOF
+)
+export BW_SESSION=$(echo "$BW_KEY" | gpg --decrypt --quiet)
 
 typeout() {
     data=$(bw get item "$2" | jq .login.$1 -r)
@@ -31,13 +51,20 @@ typeout() {
 }
 
 # TODO `bw get item` once, not twice
+# $1 name of item
+# $2 id of item
+# I use ${!#} because names with spaces will be split
 execute_login() {
+  if [[ x"$1" = x ]]; then
+      exit 1;
+  fi
+
 	if [ -n "$u" ]; then
-	    typeout username "$1"
+	    typeout username "${!#}"
 	    xdotool key Tab
 	fi
 	if [ -n "$p" ]; then
-	    typeout password "$1"
+	    typeout password "${!#}"
 	    xdotool key Return
 	fi
 }
@@ -48,9 +75,12 @@ while test $# -gt 0; do
     case "$1" in
 	-p)  u= ; shift;;
 	-u)  p= ; shift;;
-	*)   query="--search $1"; break;;
+	 *)  query="--url $1"; break;;
     esac
 done
 
-execute_login $(bw list items $query | jq ".[].name" -r | dmenu -p "login" -auto-select)
+execute_login $(bw list items $query | jq ".[] | select(has(\"login\")) | .name + \" \" + .id" -r | dmenu -p "login" -auto-select)
 
+# To automatically log in with qutebrowser, use the following bindings (for insert and normal mode):
+# bind --mode insert <Ctrl-shift-l> spawn puma-menu-bw {url:host}
+# bind ,l enter-mode insert ;; spawn puma-menu-bw {url:host}
